@@ -1,16 +1,16 @@
 import { useState } from "react";
 import { useCountdownTimer } from "../../hooks/timer";
+import { postOTPRequest } from "../../services/email";
+import "./OTPWizard.scss";
 import EnterEmail from "./Steps/EnterEmail";
 import EnterOTP from "./Steps/EnterOTP";
-import "./OTPWizard.scss";
-import { postOTPRequest } from "../../services/email";
 
 export default function OTPWizard() {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [step, setStep] = useState(0);
-  const { startTimer, countdown } = useCountdownTimer(30);
   const [loadingOTPRequest, setLoadingOTPRequest] = useState(false);
+  const { startTimer, countdown } = useCountdownTimer(30);
 
   const sendOTPToEmail = async (email: string) => {
     setLoadingOTPRequest(true);
@@ -39,6 +39,7 @@ export default function OTPWizard() {
 
   return (
     <div className="OTPWizard">
+      {/* Displaying back only if the current step is not zero */}
       {step > 0 && (
         <button
           className="back-btn"
@@ -49,6 +50,7 @@ export default function OTPWizard() {
           Back
         </button>
       )}
+      {/* Step 1: Enter email */}
       {step === 0 && (
         <EnterEmail
           initialEmail={email}
@@ -56,6 +58,7 @@ export default function OTPWizard() {
           isOTPRequestLoading={loadingOTPRequest}
         />
       )}
+      {/* Step 2: Enter OTP  */}
       {step === 1 && (
         <EnterOTP
           initialOtp={otp}

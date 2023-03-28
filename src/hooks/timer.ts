@@ -1,6 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * useCountdownTimer lets you create countdown timers that countdown from the given number. Ticks every 1 second.
+ *
+ * @param {number} countFrom Seconds to countdown from.
+ *
+ */
 export function useCountdownTimer(countFrom: number) {
+  const FREQUENCY = 1000;
   const [isActive, setIsActive] = useState(false);
   const [countdown, setCountdown] = useState(countFrom);
   const timerRef = useRef<number | undefined>();
@@ -28,7 +35,7 @@ export function useCountdownTimer(countFrom: number) {
     if (isActive) {
       timerRef.current = setInterval(() => {
         updateCountdownUntilZero();
-      }, 1000);
+      }, FREQUENCY);
     } else {
       clearInterval(timerRef.current);
     }
